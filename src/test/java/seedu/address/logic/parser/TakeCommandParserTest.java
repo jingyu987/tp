@@ -2,16 +2,14 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONSUMPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PRESCRIPTION;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.TakeCommand;
-import seedu.address.model.prescription.ConsumptionCount;
-import seedu.address.model.prescription.Name;
-
 
 public class TakeCommandParserTest {
 
@@ -19,24 +17,25 @@ public class TakeCommandParserTest {
 
     @Test
     public void parse_validArgs_success() {
-        // Valid arguments with a valid name and dosage
-        TakeCommand expectedCommand = new TakeCommand(new Name("Aspirin"), 2);
-        assertParseSuccess(parser, " " + PREFIX_NAME + "Aspirin "
-                + PREFIX_CONSUMPTION + "2", expectedCommand);
+        // Valid arguments with a valid Index and dosage
+        assertParseSuccess(parser, "1 " + PREFIX_CONSUMPTION + "2",
+                new TakeCommand(Index.fromOneBased(1), 2));
     }
 
     @Test
     public void parse_notIntegerDosage_failure() {
         // Invalid dosage (not an integer)
-        assertParseFailure(parser, " " + PREFIX_NAME + "Aspirin "
-                + PREFIX_CONSUMPTION + "abc", ConsumptionCount.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "1 "
+                + PREFIX_CONSUMPTION + "abc", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                TakeCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_negativeIntegerDosage_failure() {
         // Invalid dosage (not an integer)
-        assertParseFailure(parser, " " + PREFIX_NAME + "Aspirin "
-                + PREFIX_CONSUMPTION + "-1", ConsumptionCount.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " " + INDEX_FIRST_PRESCRIPTION
+                + PREFIX_CONSUMPTION + "-1", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                TakeCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -54,8 +53,8 @@ public class TakeCommandParserTest {
     }
 
     @Test
-    public void parse_missingName_failure() {
-        // Missing Name
+    public void parse_missingIndex_failure() {
+        // Missing Index
         assertParseFailure(parser, " " + PREFIX_CONSUMPTION + "2", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                             TakeCommand.MESSAGE_USAGE));
     }
@@ -63,7 +62,7 @@ public class TakeCommandParserTest {
     @Test
     public void parse_missingDosage_failure() {
         // Missing dosage
-        assertParseFailure(parser, " " + PREFIX_NAME + "Aspirin", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+        assertParseFailure(parser, " " + INDEX_FIRST_PRESCRIPTION, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                             TakeCommand.MESSAGE_USAGE));
     }
 

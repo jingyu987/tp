@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.TakeCommand.MESSAGE_INSUFFICIENT_STOCK;
 import static seedu.address.testutil.CompletedPrescriptions.getCompletedPrescriptionList;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PRESCRIPTION;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PRESCRIPTION;
 import static seedu.address.testutil.TypicalPrescriptions.getTypicalPrescriptionList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PrescriptionList;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.prescription.Name;
 import seedu.address.model.prescription.Prescription;
 import seedu.address.model.prescription.SameNamePredicate;
 import seedu.address.testutil.PrescriptionBuilder;
@@ -35,20 +35,24 @@ public class TakeCommandTest {
     public void execute_validDosesToTake_success() throws CommandException {
         PrescriptionList prescriptionList = new PrescriptionList();
         PrescriptionList completedPrescriptionList = new PrescriptionList();
-        Prescription prescriptionToTake = new PrescriptionBuilder()
+        Prescription prescription = new PrescriptionBuilder()
                 .withConsumptionCount("0")
                 .withStock("100")
                 .build();
-        prescriptionList.addPrescription(prescriptionToTake);
+        prescriptionList.addPrescription(prescription);
+
         Model model = new ModelManager(prescriptionList, completedPrescriptionList, new UserPrefs());
         Model expectedModel = new ModelManager(model.getPrescriptionList(), model.getCompletedPrescriptionList(),
                 new UserPrefs());
+
+        Prescription prescriptionToTake = model.getFilteredPrescriptionList()
+                .get(INDEX_FIRST_PRESCRIPTION.getZeroBased());
 
         int initialStock = Integer.parseInt(prescriptionToTake.getTotalStock().get().toString());
         int dosesToTake = 1; //Valid number of doses
 
         TakeCommand takePrescriptionCommand = new TakeCommand(
-                prescriptionToTake.getName(), dosesToTake);
+                INDEX_FIRST_PRESCRIPTION, dosesToTake);
 
         String expectedMessage = String.format(TakeCommand.MESSAGE_SUCCESS,
                                   prescriptionToTake.getName());
@@ -74,7 +78,7 @@ public class TakeCommandTest {
         int dosesToTake = initialStock + 1; // More than available stock
 
         TakeCommand takePrescriptionCommand = new TakeCommand(
-                prescriptionToTake.getName(), dosesToTake);
+                INDEX_FIRST_PRESCRIPTION, dosesToTake);
 
         assertCommandFailure(takePrescriptionCommand, model, MESSAGE_INSUFFICIENT_STOCK);
 
@@ -85,27 +89,14 @@ public class TakeCommandTest {
     }
 
     @Test
-    public void execute_invalidPrescription_throwsCommandException() {
-        Prescription prescriptionToTake = new PrescriptionBuilder().withName("Invalid Name").build();
-        int dosesToTake = 1; // A valid number of doses
-
-        TakeCommand takePrescriptionCommand = new TakeCommand(
-                prescriptionToTake.getName(), dosesToTake);
-
-        assertCommandFailure(takePrescriptionCommand, model, TakeCommand.MESSAGE_PRESCRIPTION_NOT_FOUND);
-    }
-
-    @Test
     public void equals() {
-        Name name1 = new Name("Aspirin");
-        Name name2 = new Name("Panadol");
         int doses1 = 2;
         int doses2 = 1;
 
-        TakeCommand command1 = new TakeCommand(name1, doses1);
-        TakeCommand command2 = new TakeCommand(name1, doses1);
-        TakeCommand command3 = new TakeCommand(name2, doses1);
-        TakeCommand command4 = new TakeCommand(name1, doses2);
+        TakeCommand command1 = new TakeCommand(INDEX_FIRST_PRESCRIPTION, doses1);
+        TakeCommand command2 = new TakeCommand(INDEX_FIRST_PRESCRIPTION, doses1);
+        TakeCommand command3 = new TakeCommand(INDEX_SECOND_PRESCRIPTION, doses1);
+        TakeCommand command4 = new TakeCommand(INDEX_FIRST_PRESCRIPTION, doses2);
 
         // Same object
         assertTrue(command1.equals(command1));
@@ -113,7 +104,7 @@ public class TakeCommandTest {
         // Test for equality
         assertTrue(command1.equals(command2)); // Same name and doses
         assertTrue(command2.equals(command1)); // Test for symmetry
-        assertFalse(command1.equals(command3)); // Different names
+        assertFalse(command1.equals(command3)); // Different index
         assertFalse(command1.equals(command4)); // Different doses
 
         // Test for non-equality

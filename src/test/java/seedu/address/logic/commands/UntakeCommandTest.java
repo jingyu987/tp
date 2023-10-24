@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.UntakeCommand.MESSAGE_INSUFFICIENT_CONSUMPTION;
 import static seedu.address.testutil.CompletedPrescriptions.getCompletedPrescriptionList;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PRESCRIPTION;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PRESCRIPTION;
 import static seedu.address.testutil.TypicalPrescriptions.getTypicalPrescriptionList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PrescriptionList;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.prescription.Name;
 import seedu.address.model.prescription.Prescription;
 import seedu.address.model.prescription.SameNamePredicate;
 import seedu.address.testutil.PrescriptionBuilder;
@@ -35,20 +35,23 @@ public class UntakeCommandTest {
     public void execute_validDosesToUntake_success() throws CommandException {
         PrescriptionList prescriptionList = new PrescriptionList();
         PrescriptionList completedPrescriptionList = new PrescriptionList();
-        Prescription prescriptionToUntake = new PrescriptionBuilder()
+        Prescription prescription = new PrescriptionBuilder()
                 .withConsumptionCount("100")
                 .withStock("100")
                 .build();
-        prescriptionList.addPrescription(prescriptionToUntake);
+        prescriptionList.addPrescription(prescription);
         Model model = new ModelManager(prescriptionList, completedPrescriptionList, new UserPrefs());
         Model expectedModel = new ModelManager(model.getPrescriptionList(), model.getCompletedPrescriptionList(),
                 new UserPrefs());
+
+        Prescription prescriptionToUntake = model.getFilteredPrescriptionList()
+                .get(INDEX_FIRST_PRESCRIPTION.getZeroBased());
 
         int initialStock = Integer.parseInt(prescriptionToUntake.getTotalStock().get().toString());
         int dosesToUntake = 1; //Valid number of doses
 
         UntakeCommand untakePrescriptionCommand = new UntakeCommand(
-                prescriptionToUntake.getName(), dosesToUntake);
+                INDEX_FIRST_PRESCRIPTION, dosesToUntake);
 
         String expectedMessage = String.format(UntakeCommand.MESSAGE_SUCCESS,
                 prescriptionToUntake.getName());
@@ -74,7 +77,7 @@ public class UntakeCommandTest {
         int dosesToUntake = initialConsumption + 1; // More than currently consumed
 
         UntakeCommand untakePrescriptionCommand = new UntakeCommand(
-                prescriptionToUntake.getName(), dosesToUntake);
+                INDEX_FIRST_PRESCRIPTION, dosesToUntake);
 
         assertCommandFailure(untakePrescriptionCommand, model, MESSAGE_INSUFFICIENT_CONSUMPTION);
 
@@ -85,27 +88,14 @@ public class UntakeCommandTest {
     }
 
     @Test
-    public void execute_invalidPrescription_throwsCommandException() {
-        Prescription prescriptionToUntake = new PrescriptionBuilder().withName("Invalid Name").build();
-        int dosesToUntake = 1; // A valid number of doses
-
-        UntakeCommand untakePrescriptionCommand = new UntakeCommand(
-                prescriptionToUntake.getName(), dosesToUntake);
-
-        assertCommandFailure(untakePrescriptionCommand, model, TakeCommand.MESSAGE_PRESCRIPTION_NOT_FOUND);
-    }
-
-    @Test
     public void equals() {
-        Name name1 = new Name("Aspirin");
-        Name name2 = new Name("Panadol");
         int doses1 = 2;
         int doses2 = 1;
 
-        UntakeCommand command1 = new UntakeCommand(name1, doses1);
-        UntakeCommand command2 = new UntakeCommand(name1, doses1);
-        UntakeCommand command3 = new UntakeCommand(name2, doses1);
-        UntakeCommand command4 = new UntakeCommand(name1, doses2);
+        UntakeCommand command1 = new UntakeCommand(INDEX_FIRST_PRESCRIPTION, doses1);
+        UntakeCommand command2 = new UntakeCommand(INDEX_FIRST_PRESCRIPTION, doses1);
+        UntakeCommand command3 = new UntakeCommand(INDEX_SECOND_PRESCRIPTION, doses1);
+        UntakeCommand command4 = new UntakeCommand(INDEX_FIRST_PRESCRIPTION, doses2);
 
         // Same object
         assertTrue(command1.equals(command1));
@@ -113,7 +103,7 @@ public class UntakeCommandTest {
         // Test for equality
         assertTrue(command1.equals(command2)); // Same name and doses
         assertTrue(command2.equals(command1)); // Test for symmetry
-        assertFalse(command1.equals(command3)); // Different names
+        assertFalse(command1.equals(command3)); // Different index
         assertFalse(command1.equals(command4)); // Different doses
 
         // Test for non-equality
