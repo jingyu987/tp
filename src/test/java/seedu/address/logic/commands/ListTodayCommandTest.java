@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.CompletedPrescriptions.getCompletedPrescriptionList;
 import static seedu.address.testutil.TypicalPrescriptions.getTypicalPrescriptionList;
 
 import java.time.LocalDate;
@@ -30,7 +29,7 @@ public class ListTodayCommandTest {
     private Model expectedModel;
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalPrescriptionList(), getCompletedPrescriptionList(), new UserPrefs());
+        model = new ModelManager(getTypicalPrescriptionList(), getTypicalPrescriptionList(), new UserPrefs());
         expectedModel = new ModelManager(model.getPrescriptionList(),
                 model.getCompletedPrescriptionList(), new UserPrefs());
     }

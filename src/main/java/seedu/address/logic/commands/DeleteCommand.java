@@ -31,7 +31,6 @@ public class DeleteCommand extends Command {
      * Creates an DeletePrescriptionCommand to delete the specified {@code Prescription}
      */
     public DeleteCommand(Index targetIndex) {
-        requireNonNull(targetIndex);
         this.targetIndex = targetIndex;
     }
 

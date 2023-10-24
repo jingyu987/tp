@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_PRESCRIPTIONS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.CompletedPrescriptions.getCompletedPrescriptionList;
 import static seedu.address.testutil.TypicalPrescriptions.ASPIRIN;
 import static seedu.address.testutil.TypicalPrescriptions.PROPRANOLOL;
 import static seedu.address.testutil.TypicalPrescriptions.ZOMIG;
@@ -31,7 +30,7 @@ public class FindCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalPrescriptionList(), getCompletedPrescriptionList(), new UserPrefs());
+        model = new ModelManager(getTypicalPrescriptionList(), getTypicalPrescriptionList(), new UserPrefs());
         expectedModel = new ModelManager(model.getPrescriptionList(),
             model.getCompletedPrescriptionList(), new UserPrefs());
     }

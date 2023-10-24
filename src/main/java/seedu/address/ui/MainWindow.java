@@ -1,6 +1,5 @@
 package seedu.address.ui;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -114,11 +113,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        if (logic.getIsDisplayingCompletedList()) {
-            prescriptionListPanel = new PrescriptionListPanel(logic.getFilteredCompletedPrescriptionList());
-        } else {
-            prescriptionListPanel = new PrescriptionListPanel(logic.getFilteredPrescriptionList());
-        }
+        prescriptionListPanel = new PrescriptionListPanel(logic.getFilteredPrescriptionList());
         prescriptionListPanelPlaceholder.getChildren().add(prescriptionListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -193,11 +188,9 @@ public class MainWindow extends UiPart<Stage> {
      *
      * @see seedu.address.logic.Logic#execute(String)
      */
-    private CommandResult executeCommand(String commandText) throws CommandException, ParseException, IOException {
+    private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
-            prescriptionListPanelPlaceholder.getChildren().clear();
-            fillInnerParts();
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
@@ -210,7 +203,7 @@ public class MainWindow extends UiPart<Stage> {
             }
 
             return commandResult;
-        } catch (CommandException | ParseException | IOException e) {
+        } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;

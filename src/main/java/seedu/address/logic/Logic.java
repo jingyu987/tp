@@ -1,6 +1,5 @@
 package seedu.address.logic;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import javafx.collections.ObservableList;
@@ -22,7 +21,7 @@ public interface Logic {
      * @throws CommandException If an error occurs during command execution.
      * @throws ParseException If an error occurs during parsing.
      */
-    CommandResult execute(String commandText) throws CommandException, ParseException, IOException;
+    CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
      * Returns the PrescriptionList.
@@ -33,12 +32,6 @@ public interface Logic {
 
     /** Returns an unmodifiable view of the filtered list of prescriptions */
     ObservableList<Prescription> getFilteredPrescriptionList();
-
-    /** Returns an unmodifiable view of the filtered list of completed prescriptions */
-    ObservableList<Prescription> getFilteredCompletedPrescriptionList();
-
-    /** Returns the flag indicating whether to display the completed list */
-    boolean getIsDisplayingCompletedList();
 
     /**
      * Returns the user prefs' prescription list file path.

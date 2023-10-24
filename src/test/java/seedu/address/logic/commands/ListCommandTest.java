@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPrescriptionAtIndex;
-import static seedu.address.testutil.CompletedPrescriptions.getCompletedPrescriptionList;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PRESCRIPTION;
 import static seedu.address.testutil.TypicalPrescriptions.getTypicalPrescriptionList;
 
@@ -24,7 +23,7 @@ public class ListCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalPrescriptionList(), getCompletedPrescriptionList(), new UserPrefs());
+        model = new ModelManager(getTypicalPrescriptionList(), getTypicalPrescriptionList(), new UserPrefs());
         expectedModel = new ModelManager(model.getPrescriptionList(),
             model.getCompletedPrescriptionList(), new UserPrefs());
     }
