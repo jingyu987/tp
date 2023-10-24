@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.CompletedPrescriptions.getCompletedPrescriptionList;
 import static seedu.address.testutil.TypicalPrescriptions.getTypicalPrescriptionList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ public class AddCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalPrescriptionList(), getTypicalPrescriptionList(), new UserPrefs());
+        model = new ModelManager(getTypicalPrescriptionList(), getCompletedPrescriptionList(), new UserPrefs());
     }
 
     @Test
@@ -40,9 +41,9 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Prescription personInList = model.getPrescriptionList().getPrescriptionList().get(0);
-        assertCommandFailure(new AddCommand(personInList), model,
+    public void execute_duplicatePrescription_throwsCommandException() {
+        Prescription prescriptionInList = model.getPrescriptionList().getPrescriptionList().get(0);
+        assertCommandFailure(new AddCommand(prescriptionInList), model,
                 AddCommand.MESSAGE_DUPLICATE_PRESCRIPTION);
     }
 

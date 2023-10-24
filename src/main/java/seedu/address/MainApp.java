@@ -21,6 +21,7 @@ import seedu.address.model.PrescriptionList;
 import seedu.address.model.ReadOnlyPrescriptionList;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.prescription.Prescription;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.CompletedPrescriptionListStorage;
 import seedu.address.storage.JsonCompletedPrescriptionListStorage;
@@ -188,9 +189,25 @@ public class MainApp extends Application {
         return initializedPrefs;
     }
 
+    /**
+     * Deletes prescriptions that are past the end date and stores them in the completed prescription list.
+     */
+    private void checkAndMoveEndedPrescriptions() throws IOException {
+        PrescriptionList prescriptionListCopy = new PrescriptionList(model.getPrescriptionList());
+        for (Prescription prescription : prescriptionListCopy.getPrescriptionList()) {
+            if (prescription.isEnded()) {
+                model.deletePrescription(prescription);
+                model.addCompletedPrescription(prescription);
+            }
+        }
+        storage.savePrescriptionList(model.getPrescriptionList());
+        storage.saveCompletedPrescriptionList(model.getCompletedPrescriptionList());
+    }
+
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         logger.info("Starting BayMeds v.2103 " + MainApp.VERSION);
+        checkAndMoveEndedPrescriptions();
         ui.start(primaryStage);
     }
 

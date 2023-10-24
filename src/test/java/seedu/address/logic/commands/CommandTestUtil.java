@@ -32,20 +32,29 @@ public class CommandTestUtil {
 
     public static final String VALID_NAME_ASPIRIN = "Aspirin";
     public static final String VALID_NAME_PROPRANOLOL = "Propranolol";
+    public static final String VALID_NAME_METHADONE = "Methadone";
+
     public static final String VALID_DOSAGE_ASPIRIN = "1";
     public static final String VALID_DOSAGE_PROPRANOLOL = "4";
+
     public static final String VALID_FREQUENCY_ASPIRIN = "Daily";
     public static final String VALID_FREQUENCY_PROPRANOLOL = "Weekly";
+
     public static final String VALID_START_DATE_ASPIRIN = "01/10/2023";
     public static final String VALID_START_DATE_PROPRANOLOL = "01/08/2023";
+
     public static final String VALID_END_DATE_ASPIRIN = "23/02/2024";
     public static final String VALID_END_DATE_PROPRANOLOL = "20/12/2024";
+
     public static final String VALID_EXPIRY_DATE_ASPIRIN = "12/12/2024";
     public static final String VALID_EXPIRY_DATE_PROPRANOLOL = "22/07/2024";
+
     public static final String VALID_STOCK_ASPIRIN = "100";
+    public static final String VALID_STOCK_PROPRANOLOL = "500";
+
     public static final String VALID_CONSUMPTION_ASPIRIN = "1";
     public static final String VALID_CONSUMPTION_PROPRANOLOL = "2";
-    public static final String VALID_STOCK_PROPRANOLOL = "500";
+
     public static final String VALID_NOTE_ASPIRIN = "Take before food";
     public static final String VALID_NOTE_PROPRANOLOL = "Take after food";
     // public static final String VALID_TAG_HUSBAND = "husband";
@@ -53,6 +62,7 @@ public class CommandTestUtil {
 
     public static final String NAME_DESC_ASPIRIN = " " + PREFIX_NAME + VALID_NAME_ASPIRIN;
     public static final String NAME_DESC_PROPRANOLOL = " " + PREFIX_NAME + VALID_NAME_PROPRANOLOL;
+    public static final String NAME_DESC_METHADONE = " " + PREFIX_NAME + VALID_NAME_METHADONE;
     public static final String DOSAGE_DESC_ASPIRIN = " " + PREFIX_DOSAGE + VALID_DOSAGE_ASPIRIN;
     public static final String DOSAGE_DESC_PROPRANOLOL = " " + PREFIX_DOSAGE + VALID_DOSAGE_PROPRANOLOL;
     public static final String FREQUENCY_DESC_ASPIRIN = " " + PREFIX_FREQUENCY + VALID_FREQUENCY_ASPIRIN;
@@ -160,6 +170,21 @@ public class CommandTestUtil {
         model.updateFilteredPrescriptionList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredPrescriptionList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered completed list to show only the prescription at the given
+     * {@code targetIndex} in the
+     * {@code model}'s completed prescription list.
+     */
+    public static void showCompletedPrescriptionAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredCompletedPrescriptionList().size());
+
+        Prescription prescription = model.getFilteredCompletedPrescriptionList().get(targetIndex.getZeroBased());
+        final String[] splitName = prescription.getName().toString().split("\\s+");
+        model.updateFilteredCompletedPrescriptionList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+
+        assertEquals(1, model.getFilteredCompletedPrescriptionList().size());
     }
 
 }

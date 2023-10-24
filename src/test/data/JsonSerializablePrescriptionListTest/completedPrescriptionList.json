@@ -1,0 +1,59 @@
+{
+  "_comment": "PrescriptionList save file which contains the same Prescriptions as in TypicalPrescriptions#getTypicalPrescriptionList()",
+  "prescriptions" : [ {
+    "name" : "Aspirin",
+    "dosage" : "1",
+    "frequency" : "Daily",
+    "startDate" : "01/10/2021",
+    "endDate" : "23/02/2022",
+    "expiryDate" : "12/12/2024",
+    "totalStock" : "100",
+    "consumptionCount" : "0",
+    "isCompleted" : false,
+    "note" : "Take before food"
+  }, {
+    "name" : "Propranolol",
+    "dosage" : "4",
+    "frequency" : "Daily",
+    "startDate" : "01/08/2021",
+    "endDate" : "20/12/2022",
+    "expiryDate" : "22/07/2024",
+    "totalStock" : "500",
+    "consumptionCount" : "0",
+    "isCompleted" : false,
+    "note" : "Take after food"
+  }, {
+    "name" : "Ergotamine",
+    "dosage" : "1",
+    "frequency" : "Weekly",
+    "startDate" : "01/08/2021",
+    "endDate" : "20/12/2022",
+    "expiryDate" : "22/07/2024",
+    "totalStock" : "50",
+    "consumptionCount" : "0",
+    "isCompleted" : false,
+    "note" : "Take before food"
+  }, {
+    "name" : "Naproxen",
+    "dosage" : "2",
+    "frequency" : "Weekly",
+    "startDate" : "01/08/2021",
+    "endDate" : "20/06/2022",
+    "expiryDate" : "13/01/2025",
+    "totalStock" : "75",
+    "consumptionCount" : "0",
+    "isCompleted" : false,
+    "note" : "Take before food"
+  }, {
+    "name" : "Zolmitriptan Rapimelt",
+    "dosage" : "1",
+    "frequency" : "Monthly",
+    "startDate" : "12/10/2021",
+    "endDate" : "12/10/2022",
+    "expiryDate" : "15/03/2025",
+    "totalStock" : "20",
+    "consumptionCount" : "0",
+    "isCompleted" : false,
+    "note" : "Drowsy"
+  } ]
+}

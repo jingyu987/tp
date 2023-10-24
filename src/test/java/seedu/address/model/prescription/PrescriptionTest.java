@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_PROPRANOLOL;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_START_DATE_PROPRANOLOL;
+import static seedu.address.testutil.CompletedPrescriptions.ERGOTAMINE;
 import static seedu.address.testutil.TypicalPrescriptions.ASPIRIN;
 import static seedu.address.testutil.TypicalPrescriptions.PROPRANOLOL;
 
@@ -22,6 +23,19 @@ public class PrescriptionTest {
     }
      */
 
+    @Test
+    public void isEnded() {
+        // completed prescription
+        assertTrue(ERGOTAMINE.isEnded());
+
+        // incomplete prescription
+        assertFalse(ASPIRIN.isEnded());
+
+        // prescription with no end date
+        Prescription completedPrescription = new PrescriptionBuilder()
+                .build();
+        assertFalse(completedPrescription.isEnded());
+    }
     @Test
     public void isSamePrescription() {
         // same object -> returns true

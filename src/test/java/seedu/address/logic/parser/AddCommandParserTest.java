@@ -34,8 +34,8 @@ import seedu.address.model.prescription.Dosage;
 import seedu.address.model.prescription.Frequency;
 import seedu.address.model.prescription.Name;
 import seedu.address.model.prescription.Prescription;
-// import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PrescriptionBuilder;
+
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
@@ -46,18 +46,9 @@ public class AddCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_ASPIRIN + DOSAGE_DESC_ASPIRIN
-                + FREQUENCY_DESC_ASPIRIN + START_DATE_DESC_ASPIRIN + END_DATE_DESC_ASPIRIN
-                + EXPIRY_DATE_DESC_ASPIRIN + STOCK_DESC_ASPIRIN + NOTE_DESC_ASPIRIN,
+                        + FREQUENCY_DESC_ASPIRIN + START_DATE_DESC_ASPIRIN + END_DATE_DESC_ASPIRIN
+                        + EXPIRY_DATE_DESC_ASPIRIN + STOCK_DESC_ASPIRIN + NOTE_DESC_ASPIRIN,
                 new AddCommand(expectedPrescription));
-    }
-
-
-    @Test
-    public void parse_optionalFieldsMissing_success() {
-        // zero tags
-        // Person expectedPerson = new PersonBuilder(AMY).withTags().build();
-        // assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
-        //         new AddCommand(expectedPerson));
     }
 
     @Test
@@ -66,8 +57,8 @@ public class AddCommandParserTest {
 
         // missing name prefix
         assertParseFailure(parser, PREAMBLE_WHITESPACE + DOSAGE_DESC_ASPIRIN
-                + FREQUENCY_DESC_ASPIRIN + START_DATE_DESC_ASPIRIN + END_DATE_DESC_ASPIRIN
-                + EXPIRY_DATE_DESC_ASPIRIN + STOCK_DESC_ASPIRIN + NOTE_DESC_ASPIRIN,
+                        + FREQUENCY_DESC_ASPIRIN + START_DATE_DESC_ASPIRIN + END_DATE_DESC_ASPIRIN
+                        + EXPIRY_DATE_DESC_ASPIRIN + STOCK_DESC_ASPIRIN + NOTE_DESC_ASPIRIN,
                 expectedMessage);
     }
 

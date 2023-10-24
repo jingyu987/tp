@@ -4,6 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 // import java.util.Collections;
 // import java.util.HashSet;
+import java.time.LocalDate;
 import java.util.Objects;
 // import java.util.Set;
 import java.util.Optional;
@@ -123,6 +124,18 @@ public class Prescription {
         return otherPrescription != null
                 && otherPrescription.getName().equals(getName())
                 && otherPrescription.getStartDate().equals(getStartDate());
+    }
+
+    /**
+     * Returns true if the prescription is past the end date.
+     */
+    public boolean isEnded() {
+        if (endDate.isPresent()) {
+            LocalDate currentDate = LocalDate.now();
+            LocalDate prescriptionEndDate = endDate.get().getDate();
+            return currentDate.isAfter(prescriptionEndDate);
+        }
+        return false;
     }
 
     /**

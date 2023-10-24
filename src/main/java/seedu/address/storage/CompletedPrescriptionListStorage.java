@@ -26,7 +26,7 @@ public interface CompletedPrescriptionListStorage {
     Optional<ReadOnlyPrescriptionList> readCompletedPrescriptionList() throws DataLoadingException;
 
     /**
-     * @see #getPrescriptionListFilePath()
+     * @see #getCompletedPrescriptionListFilePath()
      */
     Optional<ReadOnlyPrescriptionList> readCompletedPrescriptionList(Path filePath) throws DataLoadingException;
 
@@ -38,7 +38,7 @@ public interface CompletedPrescriptionListStorage {
     void saveCompletedPrescriptionList(ReadOnlyPrescriptionList completedPrescriptionList) throws IOException;
 
     /**
-     * @see #savePrescriptionList(ReadOnlyPrescriptionList)
+     * @see #saveCompletedPrescriptionList(ReadOnlyPrescriptionList)
      */
     void saveCompletedPrescriptionList(ReadOnlyPrescriptionList completedPrescriptionList,
             Path filePath) throws IOException;
