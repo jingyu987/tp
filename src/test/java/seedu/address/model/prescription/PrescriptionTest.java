@@ -33,6 +33,8 @@ public class PrescriptionTest {
 
         // prescription with no end date
         Prescription completedPrescription = new PrescriptionBuilder()
+                .withName("Aspirin")
+                .withStartDate("12/12/2023")
                 .build();
         assertFalse(completedPrescription.isEnded());
     }
